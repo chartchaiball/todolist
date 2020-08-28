@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+.header{
+  text-align: center;
+  margin: 10px;
+}
+      
+
+#container ul{
+    width:85%;
+    margin:20px auto;
+  }
+      /* ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+} */
+
+ul li {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block;
+  position: relative;
+}
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 48%;
+  right: 0%;
+  padding: 12px 16px;
+  transform: translate(0%, -50%);
+}
+.edit{
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 1.5%;
+  padding: 12px 16px;
+  transform: translate(0%, -50%);
+}
+    </style>
+</head>
+<body>
+    <div id="myDIV" class="header">
+        <h2>My To Do List</h2>
+        <input type="text" id="myInput" placeholder="Title...">
+        <span onclick="newElement()" class="addBtn"><i class="fa fa-plus-circle"></i></span>
+    </div>
+
+    
+    <div id="myDIV1" class="header"  >
+      <input type="text" placeholder="Title...">
+      <span class="addBtn" ><i class="fa fa-save"></i></span>
+    </div>
+
+    <div id="container">
+      <ul id="myUL">
+      </ul>
+    </div>
+
+      <script>
+  var x = document.getElementById("myDIV1");
+  x.style.display = "none";
+  
+  var inputValue = document.getElementById("myInput");
+  inputValue.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   newElement()
+  }
+});
+//ปุ่มแอด
+function newElement() {
+  var li = document.createElement("li");
+  var textLi = document.createTextNode(inputValue.value);
+  var inputedit = document.getElementById("myDIV1") //รับค่า
+  li.appendChild(textLi);
+  if (inputValue.value === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  inputValue.value = "";
+
+
+// Click on a close button to hide the current list item /ฟังชั่นปุ่มปิด
+    var span = document.createElement("span");
+    var iconDelete = document.createElement("i")
+    iconDelete.classList.add("fa", "fa-trash");
+    span.className = "close";
+    span.appendChild(iconDelete);
+    li.appendChild(span);
+    var close = document.getElementsByClassName("close");
+    var i;
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+          var div = this.parentElement;
+          var checkConfirm = confirm(`are you confirm delete ${div.childNodes[0].nodeValue} !`);
+          if(checkConfirm){
+            div.style.display = "none" ; 
+            inputedit.style.display = "none";
+          }
+        }
+
+     }
+     //รับค่าและส่งค่าออก 
+    var editbutt = document.createElement("span") //สร้างButton edit
+    // var edittxt = document.createTextNode(<i class="far fa-edit"></i>); //ส่งค่าที่รับมาไปแก้
+    var iconEdit = document.createElement("i")
+    iconEdit.classList.add("fa", "fa-edit");
+    editbutt.className = "edit";
+    editbutt.appendChild(iconEdit);
+    // editbutt.appendChild(edittxt);
+    li.appendChild(editbutt);
+    var edit = document.getElementsByClassName("edit");
+    for (let y = 0; y < edit.length; y++) {
+      edit[y].onclick = function() {
+        var divedit = this.parentElement;
+        inputedit.style.display = "block";
+        inputedit.querySelector("input").value = divedit.childNodes[0].nodeValue
+        inputedit.querySelector("input").onkeyup = function(event){
+          if (event.keyCode === 13) {
+          event.preventDefault();
+          var checkConfirm = confirm("are you confirm !");
+          if(checkConfirm){
+            divedit.childNodes[0].nodeValue = inputedit.querySelector("input").value
+            inputedit.style.display = "none";
+          }
+          }
+        }
+        inputedit.querySelector("span").onclick = function(){
+          var checkConfirm = confirm("are you confirm !");
+        }
+      }
+    } 
+   } 
+
+ </script>
+</body>
+</html>
