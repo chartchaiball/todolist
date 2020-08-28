@@ -142,6 +142,10 @@ function newElement() {
         }
         inputedit.querySelector("span").onclick = function(){
           var checkConfirm = confirm("are you confirm !");
+            if(checkConfirm){
+                divedit.childNodes[0].nodeValue = inputedit.querySelector("input").value
+                inputedit.style.display = "none";
+          }
         }
       }
     } 
